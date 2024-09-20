@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search API</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #121212da;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .search-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body style="background: url('{{ url_for('static', filename='imgs/jb.webp') }}') no-repeat center center fixed; background-size: cover;">
+    <div class="container">
+        <h1>Job Search API</h1>
+        <a href="/countries" class="search-button">Search Jobs</a>
+    </div>
+</body>
+</html>

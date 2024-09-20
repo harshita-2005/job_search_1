@@ -1,0 +1,59 @@
+body{
+    background-color: rgb(232, 227, 127);
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: 20px;
+}
+.countries-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #fef9a6;
+}
+
+.country-box {
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px;
+}
+
+.country-box img {
+    width: 100px;
+    height: auto;
+}
+
+.country-box h3 {
+    margin: 15px 0;
+    color: #333;
+}
+
+.categories {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.explore-btn {
+    background-color: #00008B; /* Dark Blue */
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.explore-btn:hover {
+    background-color: #000066;
+}
