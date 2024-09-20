@@ -5,16 +5,137 @@ import uuid
 
 app = Flask(__name__)
 
+class User:
+    def __init__(self, name, email, password, role):
+        self.name = name
+        self.email = email
+        self.password = password
+        self.role = role
+
+    def insert(self, db_manager):
+        try:
+            query = "INSERT INTO users (name, email, password, role) VALUES (%s, %s, %s, %s)"
+            db_manager.execute_query(query, (self.name, self.email, self.password, self.role), **CONFIG['database']['vjit'])
+            print("Successfully registered")
+            return True
+
+        except Exception as e:
+            print(f"Error while inserting data: {e}")
+            return False
+    def log(self, db_manager):
+        try:
+            query = "SELECT * FROM users WHERE email = %s"
+            results = db_manager.execute_query(query, (self.email,), **CONFIG['database']['vjit'])
+
+            for result in results:
+                stored_password = result['password']
+                stored_role = result['role']
+
+                if stored_password == self.password:
+                    self.role = stored_role  # Save the role for later use
+                    print("Successfully logged in")
+                    return True
+
+            print("Invalid credentials")
+            return False
+        except Exception as e:
+            print(f"Error while logging in: {e}")
+            return False
+        
+
 def generate_application_id():
     # Generate a unique ID using UUID
     return str(uuid.uuid4())
 
-@app.route('/')
+@app.route('/',methods=['GET'])
 def home():
     return render_template('home.html')
 
+@app.route("/redirect_to_registration", methods=['GET','POST'])
+def redirect_to_registration():
+    return render_template("registration.html")
+
+@app.route("/redirect_to_login", methods=['GET', 'POST'])
+def redirect_to_login():
+    return render_template("login.html")
+
+@app.route("/emp_dash", methods=['GET', 'POST'])
+def emp_dash():
+    return render_template("emp.html")
+
+@app.route("/upload_job", methods=['GET', 'POST'])
+def upload_job():
+    return render_template("home.html")#todo
+
+@app.route("/review_application", methods=['GET', 'POST'])
+def review_application():
+    return render_template("home.html")#todo
+
+@app.route("/user_dash", methods=['GET', 'POST'])
+def user_dash():
+    return render_template("user.html")
+
+@app.route("/track_application", methods=['GET', 'POST'])
+def track_application():
+     if request.method == "POST":
+         tracking_id=request.form.get("tracking-id")
+         query="SELECT status FROM application WHERE application_id = %s"
+         result=MySQLManager.execute_query(query,(tracking_id,),**CONFIG['database']['vjit'])
+         if result:
+            status = result[0]['status']
+            return render_template('track.html', status=status)
+         else:
+            status = "Tracking ID not found"
+            return render_template('track.html', status=status)
+    
+     return render_template('track.html', status=None)
+
+
+
+@app.route("/logout", methods=['GET'])
+def logout():
+    return redirect(url_for("redirect_to_login"))
+
+@app.route("/registration", methods=['GET', 'POST'])
+def registration():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        role=request.form.get('role')#role
+        password = request.form.get('password')
+        conpass = request.form.get('confirm-password')
+        
+# Check if passwords match
+        if conpass != password:
+            return "Passwords do not match"
+
+        user = User(name, email, password, role)
+        if user.insert(MySQLManager):
+            return redirect(url_for("redirect_to_login"))
+    return render_template("registration.html")
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+       
+        user = User(None, email, password, None)
+        
+        if user.log(MySQLManager):
+            # Redirect based on role saved during login
+            if user.role == 'user':
+                return redirect(url_for("user_dash"))
+            else:
+                return redirect(url_for("emp_dash"))
+        else:
+            return "Invalid credentials"
+    return render_template("login.html")
+
+
 @app.route('/countries')
-def index():
+def countries():
     return render_template('countries.html')
 
 @app.route('/explore_jobs', methods=['POST'])
@@ -60,7 +181,7 @@ def application():
         MySQLManager.execute_query(query, values,**CONFIG['database']['vjit'])
 
         # Render the success page with application ID
-        return render_template('success.html', application_id=application_id)
+        return redirect(url_for('success', application_id=application_id))
     
     # Render the application form
     return render_template('application.html')

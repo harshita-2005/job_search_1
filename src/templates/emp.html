@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: black;
+            text-align: start;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: black;
+        }
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+        }
+        .button {
+            padding: 20px 40px;
+            font-size: 22px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employer Dashboard</h1>
+    <p>Here you can upload jobs by clicking the upload button and track the progress by clicking the track button.</p>
+    <div class="buttons-container">
+ <a href="{{ url_for('upload_job') }}" class="button">Upload a Job</a>
+    <a href="{{ url_for('review_application') }}" class="button">Review application</a>
+</div>
+</body>
+</html>
+

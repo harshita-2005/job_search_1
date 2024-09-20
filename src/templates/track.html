@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tracking Page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Track Your Application</h1>
+        <form action="{{ url_for('track_application') }}" method="post">
+          <div class="form-group">
+            <label for="tracking-id">Enter your tracking ID:</label>
+            <input type="text" id="tracking-id" name="tracking-id" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Track</button>
+        </form>
+        
+        {% if status %}
+          <div class="alert alert-info mt-4">
+            <strong>Application Status:</strong> {{ status }}
+          </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
