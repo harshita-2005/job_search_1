@@ -1,0 +1,11 @@
+{
+    "database": {
+        "vjit": {
+            "user": "vjit",
+            "password": "Str0ngP@ssw0rd!",
+            "host": "161.97.186.196",
+            "database": "job_search",
+            "port": 3306
+        }
+    }
+}
