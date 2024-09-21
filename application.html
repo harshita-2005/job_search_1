@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #f9f9f9, #ccc);
+            background-size: 100% 300px;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="url"] {
+            width: 100%;
+            height: 45px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            height: 45px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            width: 49%;
+            height: 45px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+
+        button[type="reset"] {
+            width: 49%;
+            height: 45px;
+            padding: 15px;
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #aaa;
+        }
+
+        /* Added CSS to make buttons come side by side */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><center>Job Application Form</center></h2>
+        <form action="" method="post" id="job-application-form">
+            <div class="form-group">
+                <label for="full-name">Full Name:</label>
+                <input type="text" class="form-control" id="full-name" name="full-name" required>
+            </div>
+            <div class="form-group">
+                <label for="email-id">Email ID:</label>
+                <input type="email" class="form-control" id="email-id" name="email-id" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile-no">Mobile No:</label>
+                <input type="tel" class="form-control" id="mobile-no" name="mobile-no" required>
+            </div>
+            <div class="form-group">
+                <label for="expected-salary">Expected Salary (per annum):</label>
+                <input type="number" class="form-control" id="expected-salary" name="expected-salary" required>
+            </div>
+            <div class="form-group">
+                <label for="current-location">Current Location:</label>
+                <input type="text" class="form-control" id="current-location" name="current-location" required>
+            </div>
+            <div class="form-group">
+                <label for="linkedin-profile-link">LinkedIn Profile Link:</label>
+                <input type="url" class="form-control" id="linkedin-profile-link" name="linkedin-profile-link" required>
+            </div>
+            <div class="form-group">
+                <label for="resume-upload">Resume Upload (PDF or Word format):</label>
+                <input type="file" class="form-control-file" id="resume-upload" name="resume-upload" required>
+            </div>
+            <div class="button-container">
+            <form action="{{ url_for('success') }}" method="post">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
