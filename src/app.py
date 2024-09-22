@@ -2,6 +2,8 @@ from flask import Flask, redirect, request, jsonify,render_template, url_for
 from variables import CONFIG
 from storageutils import MySQLManager
 import uuid
+from flask import send_file
+import io
 
 app = Flask(__name__)
 
@@ -70,7 +72,18 @@ def upload_job():
 @app.route("/review_application", methods=['GET', 'POST'])
 def review_application():
     return render_template("home.html")#todo
+    
+@app.route("/view_resume/<application_id>")
+def view_resume(application_id):
+    query = "SELECT resume FROM application WHERE application_id = %s"
+    result = MySQLManager.execute_query(query, (application_id,), **CONFIG['database']['vjit'])
 
+    if result:
+        resume_data = result[0]['resume']
+        return send_file(io.BytesIO(resume_data), mimetype='application/pdf', as_attachment=False)
+    else:
+        return "Resume not found", 404
+        
 @app.route("/user_dash", methods=['GET', 'POST'])
 def user_dash():
     return render_template("user.html")
@@ -89,12 +102,6 @@ def track_application():
             return render_template('track.html', status=status)
     
      return render_template('track.html', status=None)
-
-
-
-@app.route("/logout", methods=['GET'])
-def logout():
-    return redirect(url_for("redirect_to_login"))
 
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
