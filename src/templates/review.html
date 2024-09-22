@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .back-button {
+            float: right;
+            padding: 10px 15px;
+            background-color: slategray;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+        }
+        .application-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .application-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        hr {
+            margin: 15px 0;
+            border: 0;
+            border-top: 1px solid #eee;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+            color: white;
+        }
+        .reject-button {
+            background-color: #dc3545;
+            color: white;
+        }
+        .reject-button:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('emp_dash') }}" class="back-button">Back to Dashboard</a>
+    <h1>Review Applications</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+                alert("{{ messages[0] }}");  // Show alert for the flash message
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <ul id="applicationList" class="application-list">
+        {% for application in applications %}
+        <li class="application-item">
+            <h3>Application ID: {{ application.application_id }}</h3>
+            <p><strong>Job ID:</strong> {{ application.job_id }}</p>
+            <p><strong>Name:</strong> {{ application.name }}</p>
+            <p><strong>Email:</strong> {{ application.email }}</p>
+            <p><strong>Mobile:</strong> {{ application.mobile }}</p>
+            <p><strong>Salary:</strong> {{ application.salary }}</p>
+            <p><strong>Location:</strong> {{ application.location }}</p>
+            <p><a href="{{ url_for('view_resume', application_id=application.application_id) }}">View Resume</a></p>
+            <p><strong>Status:</strong> {{ application.status }}</p>
+            <form action="{{ url_for('update_application_status', application_id=application.application_id, action='accept') }}" method="post" style="display:inline;">
+                <button type="submit">Accept</button>
+            </form>
+            <form action="{{ url_for('update_application_status', application_id=application.application_id, action='reject') }}" method="post" style="display:inline;">
+                <button type="submit" class="reject-button">Reject</button>
+            </form>
+            <hr>
+        </li>
+        {% else %}
+        <li>No applications found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

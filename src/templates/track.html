@@ -3,10 +3,30 @@
 <head>
   <title>Tracking Page</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    .dashboard-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff; /* Primary color */
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none; /* Remove underline */
+      transition: background-color 0.3s;
+    }
+    .dashboard-button:hover {
+      background-color: #0056b3; /* Darker shade on hover */
+    }
+    .mt-5 {
+      margin-top: 5rem; /* Adjust this value as needed */
+    }
+  </style>
 </head>
 <body>
+  <a href="{{ url_for('user_dash') }}" class="dashboard-button">Dashboard</a>
   <div class="container">
-    <div class="row">
+    <div class="row mt-5"> <!-- Added margin-top class here -->
       <div class="col-md-6 offset-md-3">
         <h1 class="text-center">Track Your Application</h1>
         <form action="{{ url_for('track_application') }}" method="post">

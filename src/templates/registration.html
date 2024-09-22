@@ -82,7 +82,25 @@
         .btn-primary:hover {
             background-color: #23527c;
         }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
+    <script>
+        function validateForm(event) {
+            const roleInput = document.getElementById('role').value.trim().toLowerCase();
+            const errorMessage = document.getElementById('error-message');
+
+            if (roleInput !== 'user' && roleInput !== 'employer') {
+                errorMessage.textContent = 'Error: Please fill either "user" or "employer".';
+                event.preventDefault(); // Prevent form submission
+            } else {
+                errorMessage.textContent = ''; // Clear error message
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -92,11 +110,6 @@
                     <li class="nav-item">
                         <form action="{{ url_for('home')}}" method="get">
                             <button class="home-btn">Home</button>
-                        </form>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ url_for('redirect_to_registration')}}" method="post">
-                            <button class="Register-btn">Register</button>
                         </form>
                     </li>
                     <li class="nav-item">
@@ -113,14 +126,15 @@
     <section class="registration-form">
         <div class="container">
             <h2>Register</h2>
-            <form action="{{ url_for('registration') }}" method="post">
+            <form action="{{ url_for('registration') }}" method="post" onsubmit="validateForm(event)">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="role">Role(user/employer):</label>
+                    <label for="role">Role (user/employer):</label>
                     <input type="text" id="role" name="role" class="form-control" required>
+                    <div id="error-message" class="error"></div>
                 </div>
                 <div class="form-group">
                   <label for="email">Email ID:</label>

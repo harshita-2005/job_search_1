@@ -1,9 +1,13 @@
-from flask import Flask, redirect, request, jsonify,render_template, url_for
+from flask import Flask, redirect, request, jsonify,render_template, url_for,flash
 from variables import CONFIG
 from storageutils import MySQLManager
 import uuid
+import os
 
 app = Flask(__name__)
+
+
+app.secret_key = os.urandom(24)
 
 class User:
     def __init__(self, name, email, password, role):
@@ -63,13 +67,62 @@ def redirect_to_login():
 def emp_dash():
     return render_template("emp.html")
 
-@app.route("/upload_job", methods=['GET', 'POST'])
-def upload_job():
-    return render_template("home.html")#todo
 
-@app.route("/review_application", methods=['GET', 'POST'])
-def review_application():
-    return render_template("home.html")#todo
+@app.route('/upload_job', methods=['POST','GET'])
+def upload_job():
+    if request.method == 'POST':
+        job_id = request.form.get('job_id')
+        job_title = request.form.get('job_title')
+        company = request.form.get('company')
+        category = request.form.get('category')
+        description = request.form.get('description')
+        date_posted = request.form.get('date_posted')
+        location = request.form.get('location')
+        contract_time = request.form.get('contract_time')
+        salary = request.form.get('salary')
+        country = request.form.get('country')
+        
+        if not all([job_id, job_title, company, category, description, date_posted, location, contract_time, salary, country]):
+            flash("Please fill all fields!", "danger")
+            return redirect(url_for('upload_job'))
+
+        else:
+            query = """INSERT INTO jobs (job_id, job_title, company, category, description, date_posted, location, contract_type, salary, country) 
+                  VALUES (%s, %s, %s, %s,%s,%s,%s,%s,%s,%s)"""
+            MySQLManager.execute_query(query, (job_id, job_title, company, category, description, date_posted, location, contract_time, salary, country), **CONFIG['database']['vjit'])
+            flash("Job successfully uploaded!", "success")
+            return redirect(url_for('upload_job'))
+    if request.method=='GET':
+        return render_template("job_upload.html")
+    
+@app.route("/review_applications", methods=['GET'])#todooo
+def review_applications():
+    query = "SELECT * FROM application where status='pending'"
+    applications = MySQLManager.execute_query(query,(), **CONFIG['database']['vjit'])
+    return render_template("review.html", applications=applications)
+
+@app.route("/update_application_status/<application_id>/<action>", methods=['POST'])#todoo
+def update_application_status(application_id, action):
+    new_status = "application accepted" if action == "accept" else "rejected"
+    query = "UPDATE application SET status = %s WHERE application_id = %s"
+    MySQLManager.execute_query(query, (new_status, application_id), **CONFIG['database']['vjit'])
+    flash(f"Application ID {application_id} has been {new_status}.")  # Flash message
+    return redirect(url_for("review_applications"))
+
+from flask import send_file
+import io
+
+@app.route("/view_resume/<application_id>")
+def view_resume(application_id):
+    query = "SELECT resume FROM application WHERE application_id = %s"
+    result = MySQLManager.execute_query(query, (application_id,), **CONFIG['database']['vjit'])
+
+    if result:
+        resume_data = result[0]['resume']
+        return send_file(io.BytesIO(resume_data), mimetype='application/pdf', as_attachment=False)
+    else:
+        return "Resume not found", 404
+
 
 @app.route("/user_dash", methods=['GET', 'POST'])
 def user_dash():
@@ -91,10 +144,6 @@ def track_application():
      return render_template('track.html', status=None)
 
 
-
-@app.route("/logout", methods=['GET'])
-def logout():
-    return redirect(url_for("redirect_to_login"))
 
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
@@ -181,6 +230,7 @@ def application():
         MySQLManager.execute_query(query, values,**CONFIG['database']['vjit'])
 
         # Render the success page with application ID
+        print(application_id)
         return redirect(url_for('success', application_id=application_id))
     
     # Render the application form

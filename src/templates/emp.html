@@ -8,7 +8,6 @@
         body {
             margin: 0;
             padding: 0;
-            
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -17,6 +16,7 @@
             flex-direction: column;
             text-align: center;
             color: white;
+            position: relative; /* Add relative positioning */
         }
         h1 {
             font-size: 36px;
@@ -33,7 +33,7 @@
             display: flex;
             gap: 20px;
         }
-        .button {
+        .button, .logout-button {
             padding: 20px 40px;
             font-size: 22px;
             cursor: pointer;
@@ -43,18 +43,27 @@
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
-        .button:hover {
+        .button:hover, .logout-button:hover {
             background-color: #218838;
+        }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            background-color: #6c757d; /* Secondary color */
+            padding: 10px 15px; /* Smaller padding */
+            font-size: 16px; /* Smaller font size */
+            border-radius: 3px; /* Slightly smaller border radius */
         }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('home') }}" class="logout-button">Logout</a>
     <h1>Employer Dashboard</h1>
     <p>Here you can upload jobs by clicking the upload button and track the progress by clicking the track button.</p>
     <div class="buttons-container">
- <a href="{{ url_for('upload_job') }}" class="button">Upload a Job</a>
-    <a href="{{ url_for('review_application') }}" class="button">Review application</a>
-</div>
+        <a href="{{ url_for('upload_job') }}" class="button">Upload a Job</a>
+        <a href="{{ url_for('review_applications') }}" class="button">Review Applications</a>
+    </div>
 </body>
 </html>
-

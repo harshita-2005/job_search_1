@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countries</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style1.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
     <script>
         // Function to validate form submission
         function validateForm(selectElement) {
@@ -16,142 +16,157 @@
             return true;  // Allow form submission
         }
     </script>
+    <style>
+        .dashboard-button {
+            position: absolute;
+            top: 20px;
+            right: 90px;
+            background-color: #007bff; /* Primary color */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .dashboard-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
 </head>
 <body>
+    <a href="{{ url_for('user_dash') }}" class="dashboard-button">Dashboard</a>
     <h1>Select Your Dream Country</h1>
     <div class="countries-container">
         <div class="country-box">
-            <img src="{{ url_for('static', filename='imgs/usa-flag.jpg')}}" alt="USA Flag">
+            <img src="{{ url_for('static', filename='imgs/usa-flag.jpg') }}" alt="USA Flag">
             <h3>USA</h3>
             <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
                 <input type="hidden" name="country" value="US">
-            <select class="categories" name="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="Customer Services Jobs">Customer Services Jobs</option>
-                <option value="Graduate Jobs">Graduate Jobs</option>
-                <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
-                <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
-                <option value="Part time jobs">Part time jobs</option>
-                <option value="Teaching jobs">Teaching jobs</option>
-                <option value="Social work jobs">Social work jobs</option>
-            </select>
-            <button type="submit" class="explore-btn">Explore</button>
-        </form>
+                <select class="categories" name="category">
+                    <option value="" disabled selected>Categories</option>
+                    <option value="Customer Services Jobs">Customer Services Jobs</option>
+                    <option value="Graduate Jobs">Graduate Jobs</option>
+                    <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
+                    <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
+                    <option value="Part time jobs">Part time jobs</option>
+                    <option value="Teaching jobs">Teaching jobs</option>
+                    <option value="Social work jobs">Social work jobs</option>
+                </select>
+                <button type="submit" class="explore-btn">Explore</button>
+            </form>
         </div>
 
+        <!-- Repeat similar structure for other countries -->
         <div class="country-box">
-            <img src="{{ url_for('static', filename='imgs/canada-flag.jpg')}}" alt="Canada Flag">
+            <img src="{{ url_for('static', filename='imgs/canada-flag.jpg') }}" alt="Canada Flag">
             <h3>CANADA</h3>
             <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
                 <input type="hidden" name="country" value="Canada">
-            <select class="categories" name="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="Admin Jobs">Admin Jobs</option>
-                <option value="Customer Services Jobs">Customer Services Jobs</option>
-                <option value="Energy , Oil & gas jobs">Energy , Oil & gas jobs</option>
-                <option value="Engineering jobs">Engineering jobs</option>
-                <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
-                <option value="Hospitality & Catering  jobs">Hospitality & Catering  jobs</option>
-                <option value="HR & requirement jobs jobs">HR & requirement jobs jobs</option>
-                <option value="IT Jobs">IT Jobs</option>
-                <option value="Graduate Jobs">Graduate Jobs</option>
-                <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
-                <option value="Maintainance jobs">Maintainance jobs</option>
-                <option value="Manfacuturing jobs">Manfacuturing jobs</option>
-                <option value="part time jobs">part time jobs</option>
-                <option value="PR advertising and marketing jobs"> PR advertising and marketing jobs</option>
-                <option value="Retail Jobs"> Retail Jobs</option>
-                <option value="Sales Jobs"> Sales Jobs</option>
-                <option value="Teaching jobs"> Teaching jobs</option>
-                <option value="Trade & construction jobs"> Trade & construction jobs</option>
-            </select>
-            <button type="submit" class="explore-btn">Explore</button>
-        </form>
+                <select class="categories" name="category">
+                    <option value="" disabled selected>Categories</option>
+                    <option value="Admin Jobs">Admin Jobs</option>
+                    <option value="Customer Services Jobs">Customer Services Jobs</option>
+                    <option value="Energy , Oil & gas jobs">Energy , Oil & gas jobs</option>
+                    <option value="Engineering jobs">Engineering jobs</option>
+                    <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
+                    <option value="Hospitality & Catering  jobs">Hospitality & Catering  jobs</option>
+                    <option value="HR & requirement jobs jobs">HR & requirement jobs jobs</option>
+                    <option value="IT Jobs">IT Jobs</option>
+                    <option value="Graduate Jobs">Graduate Jobs</option>
+                    <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
+                    <option value="Maintainance jobs">Maintainance jobs</option>
+                    <option value="Manfacuturing jobs">Manfacuturing jobs</option>
+                    <option value="part time jobs">part time jobs</option>
+                    <option value="PR advertising and marketing jobs">PR advertising and marketing jobs</option>
+                    <option value="Retail Jobs">Retail Jobs</option>
+                    <option value="Sales Jobs">Sales Jobs</option>
+                    <option value="Teaching jobs">Teaching jobs</option>
+                    <option value="Trade & construction jobs">Trade & construction jobs</option>
+                </select>
+                <button type="submit" class="explore-btn">Explore</button>
+            </form>
         </div>
-        
+
         <div class="country-box">
-            <img src="{{ url_for('static', filename='imgs/india-flag.jpg')}}" alt="INDIA Flag">
+            <img src="{{ url_for('static', filename='imgs/india-flag.jpg') }}" alt="INDIA Flag">
             <h3>INDIA</h3>
             <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
-            <input type="hidden" name="country" value="India">
-            <select class="categories" name="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="Accounting & Finance Jobs">Accounting & Finance Jobs</option>
-                <option value="Admin Jobs">Admin Jobs</option>
-                <option value="Counsultancy jobs">Counsultancy jobs</option>
-                <option value="Creative & design jobs">Creative & design jobs</option>
-                <option value="Customer services jobs">Customer services jobs</option>
-                <option value="energy oil gasjobs">energy oil gasjobs</option>
-                <option value="Hospitality & catering jobs"> Hospitality & catering jobs</option>
-                <option value="HR & requirement Jobs">HR & requirement Jobs</option>
-                <option value="IT Jobs"> IT Jobs</option>
-                <option value="PR, advertising & marketing jobs"> PR, advertising & marketing jobs</option>
-                <option value="Sales jobs"> Sales jobs</option>
-                <option value="Scientific & QAjobs"> Scientific & QAjobs</option>
-                <option value="Social work jobs">Social work jobs</option>
-                <option value="Teaching jobs"> Teaching jobs</option>
-            
-            </select>
-            <button type="submit" class="explore-btn">Explore</button>
-        </form>
+                <input type="hidden" name="country" value="India">
+                <select class="categories" name="category">
+                    <option value="" disabled selected>Categories</option>
+                    <option value="Accounting & Finance Jobs">Accounting & Finance Jobs</option>
+                    <option value="Admin Jobs">Admin Jobs</option>
+                    <option value="Counsultancy jobs">Counsultancy jobs</option>
+                    <option value="Creative & design jobs">Creative & design jobs</option>
+                    <option value="Customer services jobs">Customer services jobs</option>
+                    <option value="energy oil gasjobs">energy oil gasjobs</option>
+                    <option value="Hospitality & catering jobs">Hospitality & catering jobs</option>
+                    <option value="HR & requirement Jobs">HR & requirement Jobs</option>
+                    <option value="IT Jobs">IT Jobs</option>
+                    <option value="PR, advertising & marketing jobs">PR, advertising & marketing jobs</option>
+                    <option value="Sales jobs">Sales jobs</option>
+                    <option value="Scientific & QAjobs">Scientific & QAjobs</option>
+                    <option value="Social work jobs">Social work jobs</option>
+                    <option value="Teaching jobs">Teaching jobs</option>
+                </select>
+                <button type="submit" class="explore-btn">Explore</button>
+            </form>
         </div>
 
         <div class="country-box">
-            <img src="{{ url_for('static', filename='imgs/aus-flag.jpg')}}" alt="AUS Flag">
+            <img src="{{ url_for('static', filename='imgs/aus-flag.jpg') }}" alt="AUS Flag">
             <h3>AUSTRALIA</h3>
             <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
-            <input type="hidden" name="country" value="Australia">
-            <select class="categories" name="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="Accounting &finance Jobs">Accounting &finance Jobs</option>
-                <option value="Admin Jobs">Admin Jobs</option>
-                <option value="Counsaltancy jobs">Counsaltancy jobs</option>
-                <option value="creative & design jobs">creative & design jobs</option>
-                <option value="domestic help & cleaning jobs">domestic help & cleaning jobs</option>
-                <option value="Engineering jobs">Engineering jobs</option>
-                <option value="Healthcare & nursing jobs">Healthcare & nursing jobs</option>
-                <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
-                <option value="HR & requirement jobs">HR & requirement jobs</option>
-                <option value="IT jobs">IT jobs</option>
-                <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
-                <option value="Maintainance jobs">Maintainance jobs</option>
-                <option value="Manfacuturing jobs">Manfacuturing jobs</option>
-                <option value="part time jobs">part time jobs</option>
-                <option value="PR advertising and marketingJobs">PR advertising and marketingJobs</option>
-                <option value="sales Jobs">sales Jobs</option>
-                <option value="Teaching jobs">Teaching jobs</option>
-                <option value="Trade & Construction jobs">Trade & Construction jobs</option>
-                
-            </select>
-            <button type="submit" class="explore-btn">Explore</button>
-        </form>
-     </div>
-
-        <div class="country-box">
-            <img src="{{ url_for('static', filename='imgs/uk-flag.jpg')}}" alt="UK Flag">
-            <h3>UK</h3>
-            <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
-            <input type="hidden" name="country" value="UK">
-            <select class="categories" name="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="Admin Jobs">Admin Jobs</option>
-                <option value="Customer Services Jobs">Customer Services Jobs</option>
-                <option value="domestic help & cleaning jobs">domestic help & cleaning jobs</option>
-                <option value="Engineering Jobs">Engineering Jobs</option>
-                <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
-                <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
-                <option value="IT jobs">IT jobs</option>
-                <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
-                <option value="Maintainance jobs">Maintainance jobs</option>
-                <option value="Part time jobs">Part time jobs</option>
-                <option value="sales Jobs">sales Jobs</option>
-                <option value="Social work jobs">Social work jobs</option>
-                <option value="Teaching jobs">Teaching jobs</option>
-            </select>
-            <button type="submit" class="explore-btn">Explore</button>
-        </form>
+                <input type="hidden" name="country" value="Australia">
+                <select class="categories" name="category">
+                    <option value="" disabled selected>Categories</option>
+                    <option value="Accounting &finance Jobs">Accounting &finance Jobs</option>
+                    <option value="Admin Jobs">Admin Jobs</option>
+                    <option value="Counsaltancy jobs">Counsaltancy jobs</option>
+                    <option value="creative & design jobs">creative & design jobs</option>
+                    <option value="domestic help & cleaning jobs">domestic help & cleaning jobs</option>
+                    <option value="Engineering jobs">Engineering jobs</option>
+                    <option value="Healthcare & nursing jobs">Healthcare & nursing jobs</option>
+                    <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
+                    <option value="HR & requirement jobs">HR & requirement jobs</option>
+                    <option value="IT jobs">IT jobs</option>
+                    <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
+                    <option value="Maintainance jobs">Maintainance jobs</option>
+                    <option value="Manfacuturing jobs">Manfacuturing jobs</option>
+                    <option value="part time jobs">part time jobs</option>
+                    <option value="PR advertising and marketingJobs">PR advertising and marketingJobs</option>
+                    <option value="sales Jobs">sales Jobs</option>
+                    <option value="Teaching jobs">Teaching jobs</option>
+                    <option value="Trade & Construction jobs">Trade & Construction jobs</option>
+                </select>
+                <button type="submit" class="explore-btn">Explore</button>
+            </form>
         </div>
 
+        <div class="country-box">
+            <img src="{{ url_for('static', filename='imgs/uk-flag.jpg') }}" alt="UK Flag">
+            <h3>UK</h3>
+            <form action="{{ url_for('explore_jobs') }}" method="POST" onsubmit="return validateForm(this);">
+                <input type="hidden" name="country" value="UK">
+                <select class="categories" name="category">
+                    <option value="" disabled selected>Categories</option>
+                    <option value="Admin Jobs">Admin Jobs</option>
+                    <option value="Customer Services Jobs">Customer Services Jobs</option>
+                    <option value="domestic help & cleaning jobs">domestic help & cleaning jobs</option>
+                    <option value="Engineering Jobs">Engineering Jobs</option>
+                    <option value="Healthcare & Nursing jobs">Healthcare & Nursing jobs</option>
+                    <option value="Hospitality & Catering jobs">Hospitality & Catering jobs</option>
+                    <option value="IT jobs">IT jobs</option>
+                    <option value="Logistics &wearhouse jobs">Logistics &wearhouse jobs</option>
+                    <option value="Maintainance jobs">Maintainance jobs</option>
+                    <option value="Part time jobs">Part time jobs</option>
+                    <option value="sales Jobs">sales Jobs</option>
+                    <option value="Social work jobs">Social work jobs</option>
+                    <option value="Teaching jobs">Teaching jobs</option>
+                </select>
+                <button type="submit" class="explore-btn">Explore</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

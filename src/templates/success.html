@@ -30,12 +30,27 @@
             font-size: 18px;
             color: #666;
         }
+        .dashboard-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff; /* Primary color */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .dashboard-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('user_dash') }}" class="dashboard-button">Dashboard</a>
     <div class="container">
         <div class="message">Application Received..</div>
-        <div class="submessage">We'll Get back to you shortly</div>
+        <div class="submessage">We'll get back to you shortly</div>
         <div class="application-id">Your Application ID: {{ application_id }}</div>
     </div>
 </body>

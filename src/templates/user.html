@@ -44,14 +44,29 @@
         .button:hover {
             background-color: #b5de42;
         }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: #6c757d; /* Secondary color */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .logout-button:hover {
+            background-color: #5a6268; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('home') }}" class="logout-button">Logout</a>
     <h1>User Dashboard</h1>
     <p>Here you can search jobs by clicking the Search jobs button, and track the progress by clicking the track button.</p>
     <div class="buttons-container">
         <a href="{{ url_for('countries') }}" class="button">Search jobs</a>
-    <a href="{{ url_for('track_application') }}" class="button">Track application</a>
-</div>
+        <a href="{{ url_for('track_application') }}" class="button">Track application</a>
+    </div>
 </body>
 </html>
