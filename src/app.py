@@ -2,7 +2,8 @@ from flask import Flask, redirect, request, jsonify,render_template, url_for,fla
 from variables import CONFIG
 from storageutils import MySQLManager
 import uuid
-import os
+from flask import send_file
+import io
 
 app = Flask(__name__)
 
@@ -94,12 +95,14 @@ def upload_job():
             return redirect(url_for('upload_job'))
     if request.method=='GET':
         return render_template("job_upload.html")
-    
-@app.route("/review_applications", methods=['GET'])#todooo
-def review_applications():
+
+
+@app.route("/review_application", methods=['GET', 'POST'])
+def review_application():
     query = "SELECT * FROM application where status='pending'"
     applications = MySQLManager.execute_query(query,(), **CONFIG['database']['vjit'])
     return render_template("review.html", applications=applications)
+
 
 @app.route("/update_application_status/<application_id>/<action>", methods=['POST'])#todoo
 def update_application_status(application_id, action):
@@ -109,8 +112,6 @@ def update_application_status(application_id, action):
     flash(f"Application ID {application_id} has been {new_status}.")  # Flash message
     return redirect(url_for("review_applications"))
 
-from flask import send_file
-import io
 
 @app.route("/view_resume/<application_id>")
 def view_resume(application_id):
@@ -122,8 +123,7 @@ def view_resume(application_id):
         return send_file(io.BytesIO(resume_data), mimetype='application/pdf', as_attachment=False)
     else:
         return "Resume not found", 404
-
-
+        
 @app.route("/user_dash", methods=['GET', 'POST'])
 def user_dash():
     return render_template("user.html")
@@ -142,8 +142,6 @@ def track_application():
             return render_template('track.html', status=status)
     
      return render_template('track.html', status=None)
-
-
 
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
