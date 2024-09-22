@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Track Interface</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: aliceblue;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: black;
+            text-align: start;
+        }
+        p {
+            font-size: 27px;
+            margin-bottom: 40px;
+            color: black;
+        }
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #07ff17;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #b5de42;
+        }
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: #6c757d; /* Secondary color */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .logout-button:hover {
+            background-color: #5a6268; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('home') }}" class="logout-button">Logout</a>
+    <h1>User Dashboard</h1>
+    <p>Here you can search jobs by clicking the Search jobs button, and track the progress by clicking the track button.</p>
+    <div class="buttons-container">
+        <a href="{{ url_for('countries') }}" class="button">Search jobs</a>
+        <a href="{{ url_for('track_application') }}" class="button">Track application</a>
+    </div>
+</body>
+</html>

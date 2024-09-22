@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
+    <style>
+        .dashboard-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff; /* Primary color */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+        .dashboard-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('user_dash') }}" class="dashboard-button">Dashboard</a>
+    <div class="container">
+        <h1>Job Listings</h1>
+        <p><strong>Country:</strong> {{ country }}</p>
+        <p><strong>Category:</strong> {{ category }}</p>
+        <ul id="jobList" class="job-list">
+            {% for job in jobs %}
+            <div>
+                <li class="job-item">
+                    <h3>{{ job.job_title }}</h3>
+                    <p><strong>Company:</strong> {{ job.company }}</p>
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+                    <p><strong>Salary:</strong> {{ job.salary or 'N/A' }}</p>
+                    <p><strong>Description:</strong> {{ job.description }}</p>
+                    <p><a href="{{ url_for('application', job_id=job.job_id) }}">Apply Now</a></p>
+                </li>
+            </div>
+            {% else %}
+            <li>No jobs found for the selected country and category.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

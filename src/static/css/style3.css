@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: rgb(232, 227, 127); /* Light yellow background color for the page */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333; /* Darker color for header text */
+}
+
+.job-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.job-item {
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fef9a6; /* Light background color for job items */
+    color: #333; /* Darker color for job text for better readability */
+}

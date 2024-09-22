@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .search-form label {
+            margin-right: 10px;
+        }
+        .search-form input[type="text"] {
+            margin-right: 10px;
+        }
+        .search-form input[type="number"] {
+            width: 60px;
+            margin-right: 10px;
+        }
+        .search-form .page-field {
+            display: none;
+        }
+        .job-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .job-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Job Search</h1>
+        <form id="searchForm" class="search-form" method="get">
+            <label for="country">Country (or Code):</label>
+            <input type="text" id="country" name="country" placeholder="Enter country name or code" required>
+            <div class="page-field">
+                <label for="page">Page:</label>
+                <input type="number" id="page" name="page" min="1" value="1">
+            </div>
+            <button type="submit">Search</button>
+        </form>
+        <ul id="jobList" class="job-list"></ul>
+    </div>
+
+    <script>
+        const countryCodeMapping = {
+            "Afghanistan": "af",
+        "Albania": "al",
+        "Algeria": "dz",
+        "Andorra": "ad",
+        "Angola": "ao",
+        "Antigua and Barbuda": "ag",
+        "Argentina": "ar",
+        "Armenia": "am",
+        "Australia": "au",
+        "Austria": "at",
+        "Azerbaijan": "az",
+        "Bahamas": "bs",
+        "Bahrain": "bh",
+        "Bangladesh": "bd",
+        "Barbados": "bb",
+        "Belarus": "by",
+        "Belgium": "be",
+        "Belize": "bz",
+        "Benin": "bj",
+        "Bhutan": "bt",
+        "Bolivia": "bo",
+        "Bosnia and Herzegovina": "ba",
+        "Botswana": "bw",
+        "Brazil": "br",
+        "Brunei": "bn",
+        "Bulgaria": "bg",
+        "Burkina Faso": "bf",
+        "Burundi": "bi",
+        "Cabo Verde": "cv",
+        "Cambodia": "kh",
+        "Cameroon": "cm",
+        "Canada": "ca",
+        "Central African Republic": "cf",
+        "Chad": "td",
+        "Chile": "cl",
+        "China": "cn",
+        "Colombia": "co",
+        "Comoros": "km",
+        "Congo, Democratic Republic of the": "cd",
+        "Congo, Republic of the": "cg",
+        "Costa Rica": "cr",
+        "Croatia": "hr",
+        "Cuba": "cu",
+        "Cyprus": "cy",
+        "Czech Republic": "cz",
+        "Denmark": "dk",
+        "Djibouti": "dj",
+        "Dominica": "dm",
+        "Dominican Republic": "do",
+        "Ecuador": "ec",
+        "Egypt": "eg",
+        "El Salvador": "sv",
+        "Equatorial Guinea": "gq",
+        "Eritrea": "er",
+        "Estonia": "ee",
+        "Eswatini": "sz",
+        "Ethiopia": "et",
+        "Fiji": "fj",
+        "Finland": "fi",
+        "France": "fr",
+        "Gabon": "ga",
+        "Gambia": "gm",
+        "Georgia": "ge",
+        "Germany": "de",
+        "Ghana": "gh",
+        "Greece": "gr",
+        "Grenada": "gd",
+        "Guatemala": "gt",
+        "Guinea": "gn",
+        "Guinea-Bissau": "gw",
+        "Guyana": "gy",
+        "Haiti": "ht",
+        "Honduras": "hn",
+        "Hungary": "hu",
+        "Iceland": "is",
+        "India": "in",
+        "Indonesia": "id",
+        "Iran": "ir",
+        "Iraq": "iq",
+        "Ireland": "ie",
+        "Israel": "il",
+        "Italy": "it",
+        "Jamaica": "jm",
+        "Japan": "jp",
+        "Jordan": "jo",
+        "Kazakhstan": "kz",
+        "Kenya": "ke",
+        "Kiribati": "ki",
+        "Korea, North": "kp",
+        "Korea, South": "kr",
+        "Kosovo": "xk",
+        "Kuwait": "kw",
+        "Kyrgyzstan": "kg",
+        "Laos": "la",
+        "Latvia": "lv",
+        "Lebanon": "lb",
+        "Lesotho": "ls",
+        "Liberia": "lr",
+        "Libya": "ly",
+        "Liechtenstein": "li",
+        "Lithuania": "lt",
+        "Luxembourg": "lu",
+        "Madagascar": "mg",
+        "Malawi": "mw",
+        "Malaysia": "my",
+        "Maldives": "mv",
+        "Mali": "ml",
+        "Malta": "mt",
+        "Marshall Islands": "mh",
+        "Mauritania": "mr",
+        "Mauritius": "mu",
+        "Mexico": "mx",
+        "Micronesia": "fm",
+        "Moldova": "md",
+        "Monaco": "mc",
+        "Mongolia": "mn",
+        "Montenegro": "me",
+        "Morocco": "ma",
+        "Mozambique": "mz",
+        "Myanmar": "mm",
+        "Namibia": "na",
+        "Nauru": "nr",
+        "Nepal": "np",
+        "Netherlands": "nl",
+        "New Zealand": "nz",
+        "Nicaragua": "ni",
+        "Niger": "ne",
+        "Nigeria": "ng",
+        "North Macedonia": "mk",
+        "Norway": "no",
+        "Oman": "om",
+        "Pakistan": "pk",
+        "Palau": "pw",
+        "Palestine": "ps",
+        "Panama": "pa",
+        "Papua New Guinea": "pg",
+        "Paraguay": "py",
+        "Peru": "pe",
+        "Philippines": "ph",
+        "Poland": "pl",
+        "Portugal": "pt",
+        "Qatar": "qa",
+        "Romania": "ro",
+        "Russia": "ru",
+        "Rwanda": "rw",
+        "Saint Kitts and Nevis": "kn",
+        "Saint Lucia": "lc",
+        "Saint Vincent and the Grenadines": "vc",
+        "Samoa": "ws",
+        "San Marino": "sm",
+        "Sao Tome and Principe": "st",
+        "Saudi Arabia": "sa",
+        "Senegal": "sn",
+        "Serbia": "rs",
+        "Seychelles": "sc",
+        "Sierra Leone": "sl",
+        "Singapore": "sg",
+        "Slovakia": "sk",
+        "Slovenia": "si",
+        "Solomon Islands": "sb",
+        "Somalia": "so",
+        "South Africa": "za",
+        "South Sudan": "ss",
+        "Spain": "es",
+        "Sri Lanka": "lk",
+        "Sudan": "sd",
+        "Suriname": "sr",
+        "Sweden": "se",
+        "Switzerland": "ch",
+        "Syria": "sy",
+        "Taiwan": "tw",
+        "Tajikistan": "tj",
+        "Tanzania": "tz",
+        "Thailand": "th",
+        "Timor-Leste": "tl",
+        "Togo": "tg",
+        "Tonga": "to",
+        "Trinidad and Tobago": "tt",
+        "Tunisia": "tn",
+        "Turkey": "tr",
+        "Turkmenistan": "tm",
+        "Tuvalu": "tv",
+        "Uganda": "ug",
+        "Ukraine": "ua",
+        "United Arab Emirates": "ae",
+        "United Kingdom": "gb",
+        "United States": "us",
+        "Uruguay": "uy",
+        "Uzbekistan": "uz",
+        "Vanuatu": "vu",
+        "Vatican City": "va",
+        "Venezuela": "ve",
+        "Vietnam": "vn",
+        "Yemen": "ye",
+        "Zambia": "zm",
+        "Zimbabwe": "zw"
+        };
+
+        let currentPage = 1;
+        let currentCountry = '';
+
+        async function fetchJobs(country, page) {
+            const normalizedCountry = Object.keys(countryCodeMapping).find(key => key.toLowerCase() === country.toLowerCase());
+            const countryCode = countryCodeMapping[country] || (normalizedCountry ? countryCodeMapping[normalizedCountry] : country); // Use direct country code if provided
+
+            try {
+                const response = await fetch(`/jobs?country=${countryCode}&page=${page}`);
+                const data = await response.json();
+                displayJobs(data.results);
+                updatePagination(data.previous_page, data.next_page);
+                document.getElementById('pagination').style.display = 'block'; // Show pagination
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+            }
+        }
+
+        function displayJobs(jobs) {
+            const jobList = document.getElementById('jobList');
+            jobList.innerHTML = '';
+
+            if (jobs && jobs.length > 0) {
+                jobs.forEach(job => {
+                    const li = document.createElement('li');
+                    li.className = 'job-item';
+                    li.innerHTML = `
+                        <h3>${job.title}</h3>
+                        <p><strong>Company:</strong> ${job.company.display_name}</p>
+                        <p><strong>Location:</strong> ${job.location.display_name}</p>
+                        <p><strong>Salary:</strong> ${job.salary_min ? '$' + job.salary_min : 'N/A'}</p>
+                        <p><a href="${job.redirect_url}" target="_blank">Apply Now</a></p>
+                    `;
+                    jobList.appendChild(li);
+                });
+            } else {
+                jobList.innerHTML = '<li>No jobs found.</li>';
+            }
+        }
+
+        function updatePagination(prevPage, nextPage) {
+            const prevPageButton = document.getElementById('prevPage');
+            const nextPageButton = document.getElementById('nextPage');
+
+            prevPageButton.disabled = !prevPage;
+            nextPageButton.disabled = !nextPage;
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const country = document.getElementById('country').value.trim();
+    const page = document.getElementById('page').value.trim() || 1;
+
+    if (country) {
+        if (country !== currentCountry) {
+            currentCountry = country;
+            // Do not reset the page number
+            // currentPage = 1; // Remove this line
+            document.querySelector('.page-field').style.display = 'flex'; // Show page input field
+        }
+        currentPage = parseInt(page, 10); // Use the provided page number
+        fetchJobs(currentCountry, currentPage);
+    }
+});
+
+function changePage(direction) {
+    if ((direction === -1 && currentPage > 1) || (direction === 1 && currentPage < 100)) { // Assuming a max of 100 pages
+        currentPage += direction;
+        document.getElementById('page').value = currentPage; // Update page input
+        fetchJobs(currentCountry, currentPage);
+    }
+}
+    </script>
+</body>
+</html>
