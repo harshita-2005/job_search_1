@@ -67,12 +67,48 @@ def emp_dash():
 
 @app.route("/upload_job", methods=['GET', 'POST'])
 def upload_job():
-    return render_template("home.html")#todo
+    if request.method == 'POST':
+        job_id = request.form.get('job_id')
+        job_title = request.form.get('job_title')
+        company = request.form.get('company')
+        category = request.form.get('category')
+        description = request.form.get('description')
+        date_posted = request.form.get('date_posted')
+        location = request.form.get('location')
+        contract_time = request.form.get('contract_time')
+        salary = request.form.get('salary')
+        country = request.form.get('country')
+        
+        if not all([job_id, job_title, company, category, description, date_posted, location, contract_time, salary, country]):
+            flash("Please fill all fields!", "danger")
+            return redirect(url_for('upload_job'))
+
+        else:
+            query = """INSERT INTO jobs (job_id, job_title, company, category, description, date_posted, location, contract_type, salary, country) 
+                  VALUES (%s, %s, %s, %s,%s,%s,%s,%s,%s,%s)"""
+            MySQLManager.execute_query(query, (job_id, job_title, company, category, description, date_posted, location, contract_time, salary, country), **CONFIG['database']['vjit'])
+            flash("Job successfully uploaded!", "success")
+            return redirect(url_for('upload_job'))
+    if request.method=='GET':
+        return render_template("job_upload.html")
+
 
 @app.route("/review_application", methods=['GET', 'POST'])
 def review_application():
-    return render_template("home.html")#todo
-    
+    query = "SELECT * FROM application where status='pending'"
+    applications = MySQLManager.execute_query(query,(), **CONFIG['database']['vjit'])
+    return render_template("review.html", applications=applications)
+
+
+@app.route("/update_application_status/<application_id>/<action>", methods=['POST'])#todoo
+def update_application_status(application_id, action):
+    new_status = "application accepted" if action == "accept" else "rejected"
+    query = "UPDATE application SET status = %s WHERE application_id = %s"
+    MySQLManager.execute_query(query, (new_status, application_id), **CONFIG['database']['vjit'])
+    flash(f"Application ID {application_id} has been {new_status}.")  # Flash message
+    return redirect(url_for("review_applications"))
+
+
 @app.route("/view_resume/<application_id>")
 def view_resume(application_id):
     query = "SELECT resume FROM application WHERE application_id = %s"
