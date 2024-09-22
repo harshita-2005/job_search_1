@@ -111,7 +111,7 @@ def update_application_status(application_id, action):
     query = "UPDATE application SET status = %s WHERE application_id = %s"
     MySQLManager.execute_query(query, (new_status, application_id), **CONFIG['database']['vjit'])
     flash(f"Application ID {application_id} has been {new_status}.")  # Flash message
-    return redirect(url_for("review_applications"))
+    return redirect(url_for("review_application"))
 
 
 @app.route("/view_resume/<application_id>")

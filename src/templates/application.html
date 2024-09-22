@@ -104,40 +104,39 @@
     <a href="{{ url_for('explore_jobs') }}" class="back-button">Back</a>
     <div class="container">
         <h2><center>Job Application Form</center></h2>
-        <form action="{{ url_for('application') }}" method="post" id="job-application-form" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="full-name">Full Name:</label>
-                <input type="text" class="form-control" id="full-name" name="full-name" required>
-            </div>
-            <div class="form-group">
-                <label for="email-id">Email ID:</label>
-                <input type="email" class="form-control" id="email-id" name="email-id" required>
-            </div>
-            <div class="form-group">
-                <label for="mobile-no">Mobile No:</label>
-                <input type="tel" class="form-control" id="mobile-no" name="mobile-no" required>
-            </div>
-            <div class="form-group">
-                <label for="expected-salary">Expected Salary (per annum):</label>
-                <input type="number" class="form-control" id="expected-salary" name="expected-salary" required>
-            </div>
-            <div class="form-group">
-                <label for="current-location">Current Location:</label>
-                <input type="text" class="form-control" id="current-location" name="current-location" required>
-            </div>
-            <div class="form-group">
-                <label for="linkedin-profile-link">LinkedIn Profile Link:</label>
-                <input type="url" class="form-control" id="linkedin-profile-link" name="linkedin-profile-link" required>
-            </div>
-            <div class="form-group">
-                <label for="resume-upload">Resume Upload (PDF or Word format):</label>
-                <input type="file" class="form-control-file" id="resume-upload" name="resume-upload" required>
-            </div>
-            <div class="button-container">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Clear</button>
-            </div>
-        </form>
+<form action="{{ url_for('application') }}" method="post" id="job-application-form" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="full-name">Full Name:</label>
+        <input type="text" class="form-control" id="full-name" name="full-name" required>
     </div>
-</body>
+    <div class="form-group">
+        <label for="email-id">Email ID:</label>
+        <input type="email" class="form-control" id="email-id" name="email-id" required>
+    </div>
+    <div class="form-group">
+        <label for="mobile-no">Mobile No:</label>
+        <input type="tel" class="form-control" id="mobile-no" name="mobile-no" required>
+    </div>
+    <div class="form-group">
+        <label for="expected-salary">Expected Salary (per annum):</label>
+        <input type="number" class="form-control" id="expected-salary" name="expected-salary" required>
+    </div>
+    <div class="form-group">
+        <label for="current-location">Current Location:</label>
+        <input type="text" class="form-control" id="current-location" name="current-location" required>
+    </div>
+    <div class="form-group">
+        <label for="linkedin-profile-link">LinkedIn Profile Link:</label>
+        <input type="url" class="form-control" id="linkedin-profile-link" name="linkedin-profile-link" required>
+    </div>
+    <div class="form-group">
+        <label for="resume-upload">Resume Upload (PDF format only):</label>
+        <input type="file" class="form-control-file" id="resume-upload" name="resume-upload" accept=".pdf" required>
+    </div>
+    <div class="button-container">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-secondary">Clear</button>
+    </div>
+</form>
+
 </html>
