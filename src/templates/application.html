@@ -50,15 +50,18 @@
             border-radius: 5px;
         }
 
-        button[type="submit"] {
+        button[type="submit"], button[type="reset"] {
             width: 49%;
             height: 45px;
             padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
             background-color: #4CAF50;
             color: #fff;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         button[type="submit"]:hover {
@@ -66,31 +69,42 @@
         }
 
         button[type="reset"] {
-            width: 49%;
-            height: 45px;
-            padding: 15px;
             background-color: #ccc;
             color: #333;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         button[type="reset"]:hover {
             background-color: #aaa;
         }
 
-        /* Added CSS to make buttons come side by side */
         .button-container {
             display: flex;
             justify-content: space-between;
         }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff; /* Primary color */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('explore_jobs') }}" class="back-button">Back</a>
     <div class="container">
         <h2><center>Job Application Form</center></h2>
-        <form action="" method="post" id="job-application-form" enctype="multipart/form-data">
+        <form action="{{ url_for('application') }}" method="post" id="job-application-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="full-name">Full Name:</label>
                 <input type="text" class="form-control" id="full-name" name="full-name" required>
@@ -120,9 +134,7 @@
                 <input type="file" class="form-control-file" id="resume-upload" name="resume-upload" required>
             </div>
             <div class="button-container">
-            <form action="{{ url_for('success') }}" method="post">
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
                 <button type="reset" class="btn btn-secondary">Clear</button>
             </div>
         </form>
