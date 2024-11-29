@@ -10,10 +10,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application files
-COPY ./src /app
+COPY ./src /app/src
 
 # Expose the desired port
-EXPOSE 8407
+EXPOSE 80
 
 # Command to run your application
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind","0.0.0.0:80","src.app:app"]
