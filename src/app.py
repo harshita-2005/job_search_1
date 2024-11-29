@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 
 
-app.secret_key = os.urandom(24)
+app.secret_key =os.environ.get('FLASK_SECRECT_KEY', os.urandom(24))
 
 class User:
     def __init__(self, name, email, password, role):
@@ -237,4 +237,4 @@ def application():
 
 
 if __name__=="__main__":
-    app.run(host='0.0.0.0',port=5000,debug=False)
+    app.run(host='0.0.0.0',port=os.environ.get('PORT',5000),debug=False)
